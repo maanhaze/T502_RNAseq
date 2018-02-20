@@ -1,0 +1,10 @@
+gcc version 6.3.0 loaded.
+Intel compiler suite version 17.0.3 loaded.
+Python programming language version 2.7.13 loaded.
+Perl programming language version 5.24.1 loaded.
+IU-Quota version 1.0 loaded.
+Curl version 7.54.0 loaded.
+Sun/Oracle Java SE Development Kit version 1.8.0_131 loaded.
+R version 3.3.1 loaded
+/var/spool/torque/mom_priv/jobs/137378.s1.SC: line 11: syntax error near unexpected token `newline'
+/var/spool/torque/mom_priv/jobs/137378.s1.SC: line 11: `/<please enter the full path to scripts/>'

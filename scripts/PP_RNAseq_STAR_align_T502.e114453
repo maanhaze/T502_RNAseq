@@ -1,0 +1,8 @@
+gcc version 6.3.0 loaded.
+Intel compiler suite version 17.0.3 loaded.
+Python programming language version 2.7.13 loaded.
+Perl programming language version 5.24.1 loaded.
+IU-Quota version 1.0 loaded.
+star version 2.5.3 loaded.
+/var/spool/torque/mom_priv/jobs/114453.s1.SC: line 107: syntax error near unexpected token `fi'
+/var/spool/torque/mom_priv/jobs/114453.s1.SC: line 107: `fi'

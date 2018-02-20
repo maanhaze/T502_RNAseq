@@ -1,0 +1,85 @@
+Starting job
+Making symbolic links to fastq files.
+Retrieving Pristionchus genome assembly and annotation files
+Performing alignment on the RNA-seq files
+STAR --runMode genomeGenerate --runThreadN   --limitGenomeGenerateRAM 80000000000  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta --genomeFastaFiles /N/u/maanhaze/Carbonate/T502_RNAseq//fasta/*.fa
+Feb 01 10:46:11 ..... started STAR run
+Feb 01 10:46:11 ... starting to generate Genome files
+Feb 01 10:46:26 ... starting to sort Suffix Array. This may take a long time...
+Feb 01 10:46:33 ... sorting Suffix Array chunks and saving them to disk...
+Feb 01 10:47:10 ... loading chunks from disk, packing SA...
+Feb 01 10:47:24 ... finished generating suffix array
+Feb 01 10:47:24 ... generating Suffix Array index
+Feb 01 10:48:03 ... completed Suffix Array index
+Feb 01 10:48:03 ... writing Genome to disk ...
+Feb 01 10:48:42 ... writing Suffix Array to disk ...
+Feb 01 10:49:07 ... writing SAindex to disk
+Feb 01 10:49:43 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix NHR40-1.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn NHR40-1.R1.fastq.gz NHR40-1.R2.fastq.gz
+Feb 01 10:49:44 ..... started STAR run
+Feb 01 10:49:44 ..... loading genome
+Feb 01 10:50:08 ..... started mapping
+Feb 01 10:52:18 ..... started sorting BAM
+Feb 01 10:53:43 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix NHR40-2.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn NHR40-2.R1.fastq.gz NHR40-2.R2.fastq.gz
+Feb 01 10:53:47 ..... started STAR run
+Feb 01 10:53:47 ..... loading genome
+Feb 01 10:54:07 ..... started mapping
+Feb 01 10:56:17 ..... started sorting BAM
+Feb 01 10:57:45 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix NHR40-3.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn NHR40-3.R1.fastq.gz NHR40-3.R2.fastq.gz
+Feb 01 10:57:46 ..... started STAR run
+Feb 01 10:57:46 ..... loading genome
+Feb 01 10:58:06 ..... started mapping
+Feb 01 11:00:00 ..... started sorting BAM
+Feb 01 11:01:17 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix NHR40-4.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn NHR40-4.R1.fastq.gz NHR40-4.R2.fastq.gz
+Feb 01 11:01:18 ..... started STAR run
+Feb 01 11:01:18 ..... loading genome
+Feb 01 11:01:38 ..... started mapping
+Feb 01 11:03:36 ..... started sorting BAM
+Feb 01 11:04:57 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix Seud1-1.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn Seud1-1.R1.fastq.gz Seud1-1.R2.fastq.gz
+Feb 01 11:04:58 ..... started STAR run
+Feb 01 11:04:58 ..... loading genome
+Feb 01 11:05:18 ..... started mapping
+Feb 01 11:07:39 ..... started sorting BAM
+Feb 01 11:09:17 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix Seud1-2.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn Seud1-2.R1.fastq.gz Seud1-2.R2.fastq.gz
+Feb 01 11:09:17 ..... started STAR run
+Feb 01 11:09:17 ..... loading genome
+Feb 01 11:09:37 ..... started mapping
+Feb 01 11:11:47 ..... started sorting BAM
+Feb 01 11:13:12 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix Seud1-3.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn Seud1-3.R1.fastq.gz Seud1-3.R2.fastq.gz
+Feb 01 11:13:13 ..... started STAR run
+Feb 01 11:13:13 ..... loading genome
+Feb 01 11:13:33 ..... started mapping
+Feb 01 11:15:31 ..... started sorting BAM
+Feb 01 11:16:54 ..... finished successfully
+STAR --runMode alignReads --runThreadN   --readFilesCommand zcat --readMatesLengthsIn NotEqual --alignMatesGapMax 1000 --sjdbOverhang 39 --outFilterType Normal --outFilterMultimapNmax 20 --outFilterMismatchNmax 2 --outFilterScoreMinOverLread 0.60 --outSAMprimaryFlag AllBestScore  --outSAMtype BAM SortedByCoordinate --outSAMorder Paired  --outFileNamePrefix Seud1-4.R1.fastq.gz.STAR.  --genomeDir /N/u/maanhaze/Carbonate/T502_RNAseq//fasta  --readFilesIn Seud1-4.R1.fastq.gz Seud1-4.R2.fastq.gz
+Feb 01 11:16:55 ..... started STAR run
+Feb 01 11:16:55 ..... loading genome
+Feb 01 11:17:15 ..... started mapping
+Feb 01 11:19:23 ..... started sorting BAM
+Feb 01 11:20:48 ..... finished successfully
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/NHR40-1.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+NHR40-1.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/NHR40-2.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+NHR40-2.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/NHR40-3.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+NHR40-3.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/NHR40-4.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+NHR40-4.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/Seud1-1.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+Seud1-1.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/Seud1-2.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+Seud1-2.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/Seud1-3.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+Seud1-3.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+/N/u/maanhaze/Carbonate/T502_RNAseq//fastqs/Seud1-4.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+Seud1-4.R1.fastq.gz.STAR.Aligned.sortedByCoord.out.bam
+
+ Done with step 3 (read mapping).
+
+================================================================================

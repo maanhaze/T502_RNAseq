@@ -10,7 +10,7 @@ require("Biobase")
 require("gplots")
 #require("DESeq2")
 
-WD="/N/dc2/scratch/rtraborn/T502_RNAseq/scripts"
+WD="/N/u/maanhaze/T502_RNAseq/scripts"
 setwd(WD)
 
 #obtaining directory paths for both groups
