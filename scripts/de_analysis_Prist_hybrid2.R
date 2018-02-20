@@ -8,8 +8,8 @@ require("edgeR")
 require("Rsubread")
 require("Biobase")
 require("gplots")
-#require("DESeq2")
 
+### set your path to the scripts directory
 WD="/N/u/maanhaze/T502_RNAseq/scripts"
 setwd(WD)
 
@@ -26,6 +26,8 @@ prist_files <- c(seud_files, NHR40_files)
 #creating a count table
 prist_fc <- featureCounts(prist_files, annot.ext=pristAnnot, useMetaFeatures=TRUE, strandSpecific=1, isPairedEnd=FALSE, nthreads=16, isGTFAnnotationFile=TRUE, primaryOnly=TRUE)
 
+save(prist_fc, file="prist_DE.RData") #saving our featureCounts data to an R binary
+
 ## end of read counts section ##
 
 #load("prist_DE.RData") #starting from an R binary containing the featureCounts list created using the commands above. To run the above commands simply uncomment them (remove the leading '#' from each individual command), and commend out this line.
@@ -33,75 +35,112 @@ prist_fc <- featureCounts(prist_files, annot.ext=pristAnnot, useMetaFeatures=TRU
 dge <- DGEList(counts = prist_fc$counts,
                group = c(rep("seud1",4),rep("nhr40",4)),
                genes = prist_fc$annotation$GeneID)
+
+### Now we will apply TMM normalization
                
 dge <- calcNormFactors(dge)
 
+### Let's take a look at the normalization factors
+
+dge$samples
+
+### making a plot of the library counts data
+barplot(dge$samples$lib.size, names=c("Seud1-1","Seud1-2","Seud1-3",
+                                      "Seud1-4", "NHR40-1","NHR40-2", "NHR40-3",
+                                      "NHR40-4"), las=2, ylim=c(0,30000000))
+
+### making a plot of the counts value
+logcounts <- cpm(dge,log=TRUE)
+boxplot(logcounts, xlab="", ylab="(log2) counts per million",las=2)
+abline(h=median(logcounts),col="blue")
+title("Boxplots of logCPMs (unnormalised)")
+
+# Filtering out genes that have a low number of counts (i.e. are lowly-expressed)
+
+keep <- rowSums(cpm(dge)>1) >= 2
+dge <- dge[keep, keep.lib.sizes=FALSE]
+
+# Creating a design matrix to model our experiment
+
 design <- model.matrix(~dge$samples$group)
-               
+
 colnames(design) <- c("seud1", "nhr40")
 
-design #what does this object look like
+design #what does this object look like?
 
-dge <- estimateGLMCommonDisp(dge, design) #estimate the dispersion
+#estimate the dispersion
 
+dge <- estimateGLMCommonDisp(dge, design)
 dge <- estimateGLMTagwiseDisp(dge, design) 
+
+# evaluate the common dispersion
+
+sqrt(dge$common.disp)
+
+# Now we plot the tagwise dispersions against the log2-scaled counts-per million (CPM) values
 
 plotBCV(dge)
 
-#plotMDS(dge)
+# Now we performed the differential expression calculation
 
-v <- voom(dge, design, plot=TRUE)
+fit <- glmFit(dge, design)
+lrt <- glmLRT(fit, coef=2)
+topTags(lrt)
 
-fit <- glmFit(dge, design) #fit the results to a linear model
+summary(de <- decideTestsDGE(lrt, p=0.01, adjust="BH"))
+de_tags <- rownames(decideTestsDGE(lrt, p=0.01, adjust="BH"))
+de_tags <- rownames(dge)[as.logical(de)]
 
-lrt <- glmLRT(fit, coef = 2) #performs a likihood ratio test
+#mkaing a smear (i.e. a mean-difference) plot of our data
 
-save(dge, file="pristDGE.RData")
+plotSmear(lrt, de.tags=de_tags)
+abline(h=c(-2,2), col="blue")
 
-prist_top_tags <- topTags(lrt, n=1000, adjust.method="BH", sort.by="PValue", p.value=0.01)
+# We can also make the (classic) volcano plot from our data
+volcanoData <- cbind(lrt$table$logFC, -log10(lrt$table$PValue))
+plot(volcanoData, pch=19)
+abline(v=c(-2,2), col="red")
 
-save(prist_top_tags, file= "prist_top_tags.RData")
+save(dge, file="pristDGE.RData") #saving the updated dge object to our working directory
 
+prist_top_tags <- topTags(lrt, adjust.method="BH", sort.by="PValue", p.value=0.01)
 head(prist_top_tags[[1]]) #shows the top results on the screen
+write.csv(prist_top_tags[[1]], file="prist_top_tags.csv", row.names=FALSE) #writes a csv file to your working directory
+save(prist_top_tags, file= "prist_top_tags.RData") #saves the prist_top_tags file as a p-value
 
-write.csv(prist_top_tags[[1]], file="prist_top_tags.csv", col.names=TRUE, row.names=FALSE) #writes a csv file to your working directory
-
-dev.off()               
-               
 ##############
+#Making a heatmap with the differentially-expressed genes
+library(Biobase) #load this required package if you haven't already done so
+library(gplots)
 
-#Creating an ExpressionSet object to perform the heatmap operations on               
-#Mn_eset <-new("ExpressionSet", exprs=as.matrix(Dp_edger))
-               
-#de_data <- Dp_dge$pseudo.counts
+de_data <- dge$counts
+colnames(de_data) <- c("Seud1-1","Seud1-2","Seud1-3", "Seud1-4", "NHR40-1","NHR40-2", "NHR40-3", "NHR40-4")
+head(de_data)
+
+top_tags <- topTags(lrt, n= 18146, sort.by="none")
 
 #differential analysis results
-#de_data <- cbind(de_data, prist_top_tags)
+de_data <- cbind(de_data, top_tags[[1]])
+head(de_data)
 
-#calculating the false discovery rate (FDR)
-#de_data$FDR <- p.adjust(de_data$P.Value, method = 'BH')
+diff.genes = rownames(de_data[de_data$FDR<0.01, ])
+head(diff.genes)
+length(diff.genes)
 
-#dispersion of each tag cluster
-#de_data$tw_dis <- dge$tagwise.dispersion
+dge.subset = dge[diff.genes, ]
+colnames(dge.subset$counts) <- c("Seud1-1","Seud1-2","Seud1-3", "Seud1-4", "NHR40-1","NHR40-2", "NHR40-3", "NHR40-4")
+rownames(dge.subset$counts) <- NULL
 
-#coordinates of each tag cluster
-#data_coord2 <- matrix(data=unlist(strsplit(rownames(de_data), split="_")),
-#                      nrow= length(row.names(de_data)),
-#                      byrow=T)
+# plotting the heatmap
+heatmap.2(dge.subset$counts,symm=FALSE,symkey=FALSE, scale="row", 
+          density.info="none",trace="none", key=TRUE,margins=c(10,10))
 
-#data_coord2 <- as.data.frame(data_coord2, stringsAsFactors=F)
+dev.off()
 
-#de_index <- which(de_data1$FDR<0.01)
+# plotting and saving the heatmap to a file
+pdf("Prist_dge_heatmap.pdf")
+heatmap.2(dge.subset$counts,symm=FALSE,symkey=FALSE, scale="row", density.info="none",trace="none",
+          key=TRUE,margins=c(10,10))
+dev.off()
 
-#length(de_index)
-
-#de <- de_table1[de_index,]
-
-#selected <- rownames(de)
-
-#esetSel <- Mn_eset[selected, ]
-
-#heatmap.2(exprs(esetSel), symm=FALSE,symkey=FALSE,scale="row", density.info="none",trace="none",
-#          key=TRUE,margins=c(10,10))
-
-#dev.off()
+#### Done! ######
